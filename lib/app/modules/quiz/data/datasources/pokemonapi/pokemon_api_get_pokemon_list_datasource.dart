@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_pokemon_quiz/app/modules/quiz/domain/entities/pokemon_entity.dart';
 
+import '../../../domain/entities/pokemon_entity.dart';
 import '../../dtos/pokemon_dto.dart';
 import '../get_pokemon_list_datasource.dart';
 

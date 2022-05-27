@@ -1,9 +1,7 @@
-import 'package:flutter_pokemon_quiz/app/modules/quiz/domain/errors/errors.dart';
-
-import 'package:flutter_pokemon_quiz/app/modules/quiz/domain/entities/pokemon_entity.dart';
-
 import 'package:dartz/dartz.dart';
 
+import '../../domain/entities/pokemon_entity.dart';
+import '../../domain/errors/errors.dart';
 import '../../domain/repositories/get_pokemon_list_repository.dart';
 import '../datasources/get_pokemon_list_datasource.dart';
 
