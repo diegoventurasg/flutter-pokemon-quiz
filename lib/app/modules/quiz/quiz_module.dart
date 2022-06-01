@@ -10,17 +10,24 @@ import 'domain/usecases/get_random_question_usecase.dart';
 import 'presentation/controllers/quiz_controller.dart';
 import 'presentation/pages/quiz_page.dart';
 import 'presentation/pages/start_page.dart';
+import 'presentation/stores/game_over_store.dart';
+import 'presentation/stores/life_store.dart';
 import 'presentation/stores/pokemon_list_store.dart';
 import 'presentation/stores/question_store.dart';
+import 'presentation/stores/score_store.dart';
 
 class QuizModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         //controllers
-        Bind.lazySingleton((i) => QuizController(i.get(), i.get())),
+        Bind.lazySingleton(
+            (i) => QuizController(i.get(), i.get(), i.get(), i.get(), i.get())),
         //stores
-        Bind.lazySingleton((i) => PokemonListStore(i.get())),
-        Bind.lazySingleton((i) => QuestionStore(i.get())),
+        Bind.factory((i) => PokemonListStore(i.get())),
+        Bind.factory((i) => QuestionStore(i.get())),
+        Bind.factory((i) => ScoreStore()),
+        Bind.factory((i) => LifeStore()),
+        Bind.factory((i) => GameOverStore()),
         //usecases
         Bind.factory((i) => GetPokemonListUseCaseImpl(i.get())),
         Bind.factory((i) => GetRandomQuestionUseCaseImpl(i.get())),
