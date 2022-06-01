@@ -19,11 +19,19 @@ class ServiceGetRandomQuestionDatasource
     //correct alternative
     int answer = random.nextInt(4);
     //alternative list
-    List<PokemonEntity> alternatives = [];
-    for (int i = 0; i < 4; i++) {
+    List<int> indexOfAlternatives = [];
+    int i = 0;
+    while (i < 4) {
       int randomPokemon = random.nextInt(length);
-      alternatives.add(list[randomPokemon]);
+      bool isRepeated = indexOfAlternatives.contains(randomPokemon);
+      if (!isRepeated) {
+        indexOfAlternatives.add(randomPokemon);
+        i++;
+      }
     }
+
+    List<PokemonEntity> alternatives =
+        indexOfAlternatives.map((e) => list[e]).toList();
 
     List<QuestionType> typeList = QuestionType.values;
     //question type
