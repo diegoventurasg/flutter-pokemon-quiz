@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../domain/entities/alternative_entity.dart';
+import '../../controllers/quiz_controller.dart';
 
 class AlternativeName extends StatelessWidget {
-  const AlternativeName({
+  AlternativeName({
     Key? key,
     required this.alternative,
   }) : super(key: key);
 
   final AlternativeEntity alternative;
+  final QuizController quizController = Modular.get<QuizController>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +22,7 @@ class AlternativeName extends StatelessWidget {
       child: ElevatedButton(
         child: Text(alternative.alternative.name),
         onPressed: () {
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(alternative.isCorrect ? 'correct' : 'incorrect'),
-            ),
-          );
+          quizController.checkAnswer(alternative);
         },
       ),
     );

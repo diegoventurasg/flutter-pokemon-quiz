@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../domain/entities/alternative_entity.dart';
+import '../../controllers/quiz_controller.dart';
+import '../quiz_image/quiz_image.dart';
 
 class AlternativeImage extends StatelessWidget {
-  const AlternativeImage({
+  AlternativeImage({
     Key? key,
     required this.alternative,
   }) : super(key: key);
 
   final AlternativeEntity alternative;
+  final QuizController quizController = Modular.get<QuizController>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +21,9 @@ class AlternativeImage extends StatelessWidget {
       height: 150,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: ElevatedButton(
-        child: Image.network(alternative.alternative.image),
+        child: QuizImage(alternative.alternative.image),
         onPressed: () {
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(alternative.isCorrect ? 'correct' : 'incorrect'),
-            ),
-          );
+          quizController.checkAnswer(alternative);
         },
       ),
     );

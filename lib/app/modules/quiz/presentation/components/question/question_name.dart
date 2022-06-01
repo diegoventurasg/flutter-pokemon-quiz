@@ -13,28 +13,30 @@ class QuestionName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: question.question.name.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                Text(question.question.name),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AlternativeImage(alternative: question.alternative1),
-                    AlternativeImage(alternative: question.alternative2),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AlternativeImage(alternative: question.alternative3),
-                    AlternativeImage(alternative: question.alternative4),
-                  ],
-                ),
-              ],
-            ),
+    return SizedBox(
+      height: 400,
+      child: Column(
+        children: [
+          Text(
+            question.question.name,
+            style: const TextStyle(color: Colors.white),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AlternativeImage(alternative: question.alternative1),
+              AlternativeImage(alternative: question.alternative2),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AlternativeImage(alternative: question.alternative3),
+              AlternativeImage(alternative: question.alternative4),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
