@@ -15,4 +15,8 @@ class QuestionStore extends StreamStore<Exception, QuestionEntity> {
     result.fold(setError, update);
     setLoading(false);
   }
+
+  void reset() {
+    update(QuestionEntity());
+  }
 }
