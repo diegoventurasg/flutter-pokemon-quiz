@@ -38,6 +38,7 @@ dependencies:
   dartz: ^0.10.1
   dio: ^4.0.6
   flutter_triple: ^1.2.7+2
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:
