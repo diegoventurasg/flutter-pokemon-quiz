@@ -20,7 +20,7 @@ class QuizModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         //controllers
-        Bind.lazySingleton(
+        Bind.factory(
             (i) => QuizController(i.get(), i.get(), i.get(), i.get(), i.get())),
         //stores
         Bind.factory((i) => PokemonListStore(i.get())),
