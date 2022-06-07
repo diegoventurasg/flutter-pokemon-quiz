@@ -16,8 +16,6 @@ class ServiceGetRandomQuestionDatasource
     }
 
     Random random = Random();
-    //correct alternative
-    int answer = random.nextInt(4);
     //alternative list
     List<int> indexOfAlternatives = [];
     int i = 0;
@@ -30,32 +28,18 @@ class ServiceGetRandomQuestionDatasource
       }
     }
 
-    List<PokemonEntity> alternatives =
-        indexOfAlternatives.map((e) => list[e]).toList();
+    //correct alternative
+    int answerIndex = random.nextInt(4);
+    int alternativeCorrectIndex = indexOfAlternatives[answerIndex];
 
-    List<QuestionType> typeList = QuestionType.values;
-    //question type
-    QuestionType type = typeList[random.nextInt(typeList.length)];
+    List<AlternativeEntity> alternatives = indexOfAlternatives
+        .map((e) => AlternativeEntity(
+            alternative: list[e], isCorrect: alternativeCorrectIndex == e))
+        .toList();
 
     QuestionEntity question = QuestionEntity(
-      type: type,
-      question: alternatives[answer],
-      alternative1: AlternativeEntity(
-        alternative: alternatives[0],
-        isCorrect: answer == 0,
-      ),
-      alternative2: AlternativeEntity(
-        alternative: alternatives[1],
-        isCorrect: answer == 1,
-      ),
-      alternative3: AlternativeEntity(
-        alternative: alternatives[2],
-        isCorrect: answer == 2,
-      ),
-      alternative4: AlternativeEntity(
-        alternative: alternatives[3],
-        isCorrect: answer == 3,
-      ),
+      question: alternatives[answerIndex].alternative,
+      alternatives: alternatives,
     );
 
     return question;
