@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../domain/entities/player_entity.dart';
+import '../../domain/entities/score_entity.dart';
 import '../../domain/errors/errors.dart';
 import '../../domain/repositories/get_score_list_repository.dart';
 import '../datasources/get_score_list_datasource.dart';
@@ -11,9 +11,9 @@ class GetScoreListRepositoryImpl implements IGetScoreListRepository {
   final IGetScoreListDatasource datasource;
 
   @override
-  Future<Either<Failure, List<PlayerEntity>>> call() async {
+  Future<Either<Failure, List<ScoreEntity>>> call() async {
     try {
-      List<PlayerEntity> scores = await datasource();
+      List<ScoreEntity> scores = await datasource();
       return right(scores);
     } catch (e) {
       return left(DatasourceError());

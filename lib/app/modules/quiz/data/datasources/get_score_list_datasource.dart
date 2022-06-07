@@ -1,5 +1,5 @@
-import '../../domain/entities/player_entity.dart';
+import '../../domain/entities/score_entity.dart';
 
 abstract class IGetScoreListDatasource {
-  Future<List<PlayerEntity>> call();
+  Future<List<ScoreEntity>> call();
 }
