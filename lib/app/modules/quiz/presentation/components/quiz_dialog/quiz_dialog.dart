@@ -9,9 +9,12 @@ import '../../controllers/quiz_controller.dart';
 import '../../stores/game_over_store.dart';
 
 class QuizDialog extends StatelessWidget {
-  QuizDialog({Key? key}) : super(key: key);
+  const QuizDialog({
+    Key? key,
+    required this.quizController,
+  }) : super(key: key);
 
-  final QuizController quizController = Modular.get<QuizController>();
+  final QuizController quizController;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class QuizDialog extends StatelessWidget {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  quizController.clearQuiz();
+                                  // quizController.clearQuiz();
                                   Modular.to.navigate('/quiz/');
                                 },
                                 child: const FaIcon(

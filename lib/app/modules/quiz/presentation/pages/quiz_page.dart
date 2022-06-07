@@ -30,11 +30,11 @@ class _QuizPageState extends State<QuizPage> {
         children: [
           Column(
             children: [
-              QuizBar(),
-              Question(),
+              QuizBar(quizController: controller),
+              Question(quizController: controller),
             ],
           ),
-          QuizDialog(),
+          QuizDialog(quizController: controller),
         ],
       ),
     );

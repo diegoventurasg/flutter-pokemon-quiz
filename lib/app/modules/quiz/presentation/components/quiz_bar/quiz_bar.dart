@@ -8,9 +8,12 @@ import '../../stores/life_store.dart';
 import '../../stores/score_store.dart';
 
 class QuizBar extends StatelessWidget {
-  QuizBar({Key? key}) : super(key: key);
+  const QuizBar({
+    Key? key,
+    required this.quizController,
+  }) : super(key: key);
 
-  final QuizController quizController = Modular.get<QuizController>();
+  final QuizController quizController;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class QuizBar extends StatelessWidget {
                         ],
                       ));
               if (result ?? false) {
-                quizController.clearQuiz();
+                // quizController.clearQuiz();
                 Modular.to.navigate('/quiz/');
               }
             },
