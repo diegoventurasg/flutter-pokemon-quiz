@@ -3,7 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import '../components/question/question.dart';
 import '../components/quiz_bar/quiz_bar.dart';
-import '../components/quiz_dialog/quiz_dialog.dart';
+import '../components/save_score_dialog/save_score_dialog.dart';
 import '../controllers/quiz_controller.dart';
 
 class QuizPage extends StatefulWidget {
@@ -34,7 +34,7 @@ class _QuizPageState extends State<QuizPage> {
               Question(quizController: controller),
             ],
           ),
-          QuizDialog(quizController: controller),
+          SaveScoreDialog(quizController: controller),
         ],
       ),
     );

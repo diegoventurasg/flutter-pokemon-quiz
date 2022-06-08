@@ -8,8 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../controllers/quiz_controller.dart';
 import '../../stores/game_over_store.dart';
 
-class QuizDialog extends StatelessWidget {
-  const QuizDialog({
+class SaveScoreDialog extends StatelessWidget {
+  const SaveScoreDialog({
     Key? key,
     required this.quizController,
   }) : super(key: key);
