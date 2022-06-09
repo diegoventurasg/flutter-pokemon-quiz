@@ -1,12 +1,16 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'data/datasources/pokemonapi/pokemon_api_get_pokemon_list_datasource.dart';
 import 'data/datasources/services/service_get_random_question_datasource.dart';
+import 'data/datasources/shared_preferences/shared_preferences_add_score_datasource_impl.dart';
+import 'data/repositories/add_score_repository_impl.dart';
 import 'data/repositories/get_pokemon_list_repository_impl.dart';
 import 'data/repositories/get_random_question_repository_impl.dart';
+import 'domain/usecases/add_score_usecase.dart';
 import 'domain/usecases/get_pokemon_list_usecase.dart';
 import 'domain/usecases/get_random_question_usecase.dart';
+import 'presentation/components/save_score_dialog/save_score_controller.dart';
+import 'presentation/components/save_score_dialog/save_score_store.dart';
 import 'presentation/controllers/quiz_controller.dart';
 import 'presentation/pages/quiz_page.dart';
 import 'presentation/pages/start_page.dart';
@@ -22,23 +26,26 @@ class QuizModule extends Module {
         //controllers
         Bind.factory(
             (i) => QuizController(i.get(), i.get(), i.get(), i.get(), i.get())),
+        Bind.factory((i) => SaveScoreController(i.get())),
         //stores
         Bind.factory((i) => PokemonListStore(i.get())),
         Bind.factory((i) => QuestionStore(i.get())),
         Bind.factory((i) => ScoreStore()),
         Bind.factory((i) => LifeStore()),
         Bind.factory((i) => GameOverStore()),
+        Bind.factory((i) => SaveScoreStore(i.get())),
         //usecases
         Bind.factory((i) => GetPokemonListUseCaseImpl(i.get())),
         Bind.factory((i) => GetRandomQuestionUseCaseImpl(i.get())),
+        Bind.factory((i) => AddScoreUseCaseImpl(i.get())),
         //repositories
         Bind.factory((i) => GetPokemonListRepositoryImpl(i.get())),
         Bind.factory((i) => GetRandomQuestionRepositoryImpl(i.get())),
+        Bind.factory((i) => AddScoreRepositoryImpl(i.get())),
         //datasources
         Bind.factory((i) => PokemonApiGetPokemonListDatasource(i.get())),
         Bind.factory((i) => ServiceGetRandomQuestionDatasource()),
-        //dio
-        Bind.lazySingleton((i) => Dio()),
+        Bind.factory((i) => SharedPreferencesAddScoreDatasourceImpl(i.get())),
       ];
 
   @override
