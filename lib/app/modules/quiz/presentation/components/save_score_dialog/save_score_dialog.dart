@@ -7,8 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../controllers/quiz_controller.dart';
 import '../../stores/game_over_store.dart';
+import 'save_score_controller.dart';
 
-class SaveScoreDialog extends StatelessWidget {
+class SaveScoreDialog extends StatefulWidget {
   const SaveScoreDialog({
     Key? key,
     required this.quizController,
@@ -17,9 +18,26 @@ class SaveScoreDialog extends StatelessWidget {
   final QuizController quizController;
 
   @override
+  State<SaveScoreDialog> createState() => _SaveScoreDialogState();
+}
+
+class _SaveScoreDialogState extends State<SaveScoreDialog> {
+  final SaveScoreController controller = Modular.get<SaveScoreController>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.store.observer(
+      onState: (state) {
+        Modular.to.navigate('/quiz/');
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TripleBuilder<GameOverStore, Exception, bool>(
-        store: quizController.gameOverStore,
+        store: widget.quizController.gameOverStore,
         builder: (context, triple) {
           if (triple.state) {
             return Container(
@@ -63,10 +81,27 @@ class SaveScoreDialog extends StatelessWidget {
                             'Informe um nome para salvar a sua pontuação',
                           ),
                           const SizedBox(height: 20),
-                          const TextField(),
+                          TextFormField(
+                            controller: controller.nameController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (name) {
+                              if (name == null || name.trim().isEmpty) {
+                                return 'Informe um nome';
+                              }
+                              return null;
+                            },
+                          ),
                           const SizedBox(height: 20),
                           ElevatedButton(
-                              onPressed: () {}, child: const Text('CONTINUAR')),
+                            onPressed: () {
+                              controller.save(
+                                name: controller.nameController.text,
+                                points: widget.quizController.scoreStore.state,
+                              );
+                            },
+                            child: const Text('CONTINUAR'),
+                          ),
                         ],
                       ),
                     ),
