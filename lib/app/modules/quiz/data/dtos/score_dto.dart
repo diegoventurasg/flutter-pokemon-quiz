@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../domain/entities/score_entity.dart';
 
 extension ScoreDto on ScoreEntity {
@@ -14,4 +16,8 @@ extension ScoreDto on ScoreEntity {
       points: map['points'],
     );
   }
+
+  String toJson() => json.encode(toMap());
+
+  static ScoreEntity fromJson(String source) => fromMap(json.decode(source));
 }
