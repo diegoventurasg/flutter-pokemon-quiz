@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../domain/entities/score_entity.dart';
@@ -15,9 +13,10 @@ class SharedPreferencesGetScoreListDatasourceImpl
   @override
   Future<List<ScoreEntity>> call() async {
     try {
-      final data = shared.getString('scores') ?? '';
-      final json = jsonDecode(data) as List<dynamic>;
-      return json.map((e) => ScoreDto.fromMap(e)).toList();
+      final data = shared.getStringList('scores') ?? [];
+      final list = data.map((e) => ScoreDto.fromJson(e)).toList();
+      list.sort((a, b) => b.points - a.points);
+      return list;
     } catch (e) {
       throw Exception();
     }

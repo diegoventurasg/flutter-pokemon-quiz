@@ -8,9 +8,19 @@ class StartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Center(
-        child: ElevatedButton(
-          onPressed: () => Modular.to.navigate('/quiz/game'),
-          child: const Text('Começar'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () => Modular.to.navigate('/quiz/game'),
+              child: const Text('Começar'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => Modular.to.pushNamed('/quiz/ranking'),
+              child: const Text('Ranking'),
+            ),
+          ],
         ),
       ),
     );
