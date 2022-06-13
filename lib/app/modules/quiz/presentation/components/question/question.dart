@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
+import '../../../../../core/consts/api_const.dart';
 import '../../../domain/entities/alternative_entity.dart';
 import '../../../domain/entities/question_entity.dart';
 import '../../controllers/quiz_controller.dart';
 import '../../stores/question_store.dart';
-import '../quiz_image/quiz_image.dart';
 
 class Question extends StatelessWidget {
   const Question({
@@ -30,10 +30,12 @@ class Question extends StatelessWidget {
                 width: 400,
                 child: Column(
                   children: [
-                    QuizImage(
-                      question.question.image,
+                    Image.network(
+                      ApiConst.imgUrl(question.question.num),
                       height: 150,
+                      width: 150,
                     ),
+                    const SizedBox(height: 16),
                     ...question.alternatives.map((e) => _alternative(e)),
                   ],
                 ),
