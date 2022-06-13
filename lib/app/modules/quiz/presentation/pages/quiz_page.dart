@@ -17,26 +17,28 @@ class _QuizPageState extends State<QuizPage> {
   final QuizController controller = Modular.get<QuizController>();
 
   @override
-  void initState() {
-    super.initState();
-    controller.init();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              QuizBar(quizController: controller),
-              Question(quizController: controller),
-            ],
-          ),
-          SaveScoreDialog(quizController: controller),
-        ],
-      ),
+      body: FutureBuilder(
+          future: controller.init(),
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Stack(
+                children: [
+                  Column(
+                    children: [
+                      QuizBar(quizController: controller),
+                      Question(quizController: controller),
+                    ],
+                  ),
+                  SaveScoreDialog(quizController: controller),
+                ],
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 }
