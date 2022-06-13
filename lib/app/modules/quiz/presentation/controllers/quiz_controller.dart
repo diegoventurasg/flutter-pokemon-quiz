@@ -20,8 +20,9 @@ class QuizController {
   final LifeStore lifeStore;
   final GameOverStore gameOverStore;
 
-  void init() {
-    pokemonListStore.fetchData().then((value) => generateQuestion());
+  Future<void> init() async {
+    await pokemonListStore.fetchData();
+    await generateQuestion();
   }
 
   Future<void> generateQuestion() async {
