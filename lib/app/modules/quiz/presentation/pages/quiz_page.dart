@@ -3,7 +3,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import '../components/question/question.dart';
 import '../components/quiz_bar/quiz_bar.dart';
-import '../components/save_score_dialog/save_score_dialog.dart';
 import '../controllers/quiz_controller.dart';
 
 class QuizPage extends StatefulWidget {
@@ -24,15 +23,10 @@ class _QuizPageState extends State<QuizPage> {
           future: controller.init(),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return Stack(
+              return Column(
                 children: [
-                  Column(
-                    children: [
-                      QuizBar(quizController: controller),
-                      Question(quizController: controller),
-                    ],
-                  ),
-                  SaveScoreDialog(quizController: controller),
+                  QuizBar(quizController: controller),
+                  Question(quizController: controller),
                 ],
               );
             } else {

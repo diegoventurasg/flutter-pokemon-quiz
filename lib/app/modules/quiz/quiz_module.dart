@@ -19,7 +19,6 @@ import 'presentation/controllers/ranking_controller.dart';
 import 'presentation/pages/quiz_page.dart';
 import 'presentation/pages/ranking_page.dart';
 import 'presentation/pages/start_page.dart';
-import 'presentation/stores/game_over_store.dart';
 import 'presentation/stores/life_store.dart';
 import 'presentation/stores/pokemon_list_store.dart';
 import 'presentation/stores/question_store.dart';
@@ -30,8 +29,7 @@ class QuizModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         //controllers
-        Bind.factory(
-            (i) => QuizController(i.get(), i.get(), i.get(), i.get(), i.get())),
+        Bind.factory((i) => QuizController(i.get(), i.get(), i.get(), i.get())),
         Bind.factory((i) => SaveScoreController(i.get())),
         Bind.factory((i) => RankingController(i.get())),
         //stores
@@ -39,7 +37,6 @@ class QuizModule extends Module {
         Bind.factory((i) => QuestionStore(i.get())),
         Bind.factory((i) => ScoreStore()),
         Bind.factory((i) => LifeStore()),
-        Bind.factory((i) => GameOverStore()),
         Bind.factory((i) => SaveScoreStore(i.get())),
         Bind.factory((i) => RankingStore(i.get())),
         //usecases
