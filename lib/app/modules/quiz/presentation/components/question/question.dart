@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
 import '../../../../../core/consts/api_const.dart';
 import '../../../domain/entities/question_entity.dart';
-import '../../controllers/quiz_controller.dart';
+import '../../../quiz_helper.dart';
 import '../../stores/question_store.dart';
 import '../save_score_dialog/save_score_dialog.dart';
 
 class Question extends StatelessWidget {
-  const Question({
-    Key? key,
-    required this.quizController,
-  }) : super(key: key);
+  Question({Key? key}) : super(key: key);
 
-  final QuizController quizController;
+  final QuizHelper quiz = Modular.get<QuizHelper>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,7 @@ class Question extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ScopedBuilder<QuestionStore, Exception, QuestionEntity>(
-            store: quizController.questionStore,
+            store: quiz.controller.questionStore,
             onLoading: (_) => const Center(child: CircularProgressIndicator()),
             onError: (_, exception) => const Center(child: Text('error')),
             onState: (_, question) {
@@ -46,14 +44,15 @@ class Question extends StatelessWidget {
                           child: Text(alternative.alternative.name),
                           onPressed: () async {
                             bool next =
-                                await quizController.checkAnswer(alternative);
+                                await quiz.controller.checkAnswer(alternative);
                             if (!next) {
                               //game over
                               showDialog(
                                 context: context,
                                 barrierDismissible: false,
                                 builder: (_) => SaveScoreDialog(
-                                    points: quizController.scoreStore.state),
+                                  points: quiz.controller.scoreStore.state,
+                                ),
                               );
                             }
                           },

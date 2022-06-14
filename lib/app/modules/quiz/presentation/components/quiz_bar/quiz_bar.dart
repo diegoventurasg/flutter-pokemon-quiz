@@ -3,17 +3,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../controllers/quiz_controller.dart';
+import '../../../quiz_helper.dart';
 import '../../stores/life_store.dart';
 import '../../stores/score_store.dart';
 
 class QuizBar extends StatelessWidget {
-  const QuizBar({
-    Key? key,
-    required this.quizController,
-  }) : super(key: key);
+  QuizBar({Key? key}) : super(key: key);
 
-  final QuizController quizController;
+  final QuizHelper quiz = Modular.get<QuizHelper>();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +55,7 @@ class QuizBar extends StatelessWidget {
           SizedBox(
             width: 120,
             child: TripleBuilder<LifeStore, Exception, int>(
-                store: quizController.lifeStore,
+                store: quiz.controller.lifeStore,
                 builder: (context, triple) {
                   return Row(
                     children: [
@@ -84,7 +81,7 @@ class QuizBar extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               TripleBuilder<ScoreStore, Exception, int>(
-                store: quizController.scoreStore,
+                store: quiz.controller.scoreStore,
                 builder: (context, triple) => Text(
                   triple.state.toString(),
                   style: const TextStyle(
