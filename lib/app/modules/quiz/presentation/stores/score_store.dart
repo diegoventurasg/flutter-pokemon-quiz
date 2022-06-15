@@ -6,4 +6,8 @@ class ScoreStore extends StreamStore<Exception, int> {
   void increment() {
     update(state + 1);
   }
+
+  void init() {
+    update(0);
+  }
 }

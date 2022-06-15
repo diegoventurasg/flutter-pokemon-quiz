@@ -4,14 +4,14 @@ import 'package:flutter_triple/flutter_triple.dart';
 
 import '../../../../../core/consts/api_const.dart';
 import '../../../domain/entities/question_entity.dart';
-import '../../../quiz_helper.dart';
+import '../../controllers/quiz_controller.dart';
 import '../../stores/question_store.dart';
 import '../save_score_dialog/save_score_dialog.dart';
 
 class Question extends StatelessWidget {
   Question({Key? key}) : super(key: key);
 
-  final QuizHelper quiz = Modular.get<QuizHelper>();
+  final QuizController controller = Modular.get<QuizController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Question extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ScopedBuilder<QuestionStore, Exception, QuestionEntity>(
-            store: quiz.controller.questionStore,
+            store: controller.questionStore,
             onLoading: (_) => const Center(child: CircularProgressIndicator()),
             onError: (_, exception) => const Center(child: Text('error')),
             onState: (_, question) {
@@ -44,14 +44,14 @@ class Question extends StatelessWidget {
                           child: Text(alternative.alternative.name),
                           onPressed: () async {
                             bool next =
-                                await quiz.controller.checkAnswer(alternative);
+                                await controller.checkAnswer(alternative);
                             if (!next) {
                               //game over
                               showDialog(
                                 context: context,
                                 barrierDismissible: false,
                                 builder: (_) => SaveScoreDialog(
-                                  points: quiz.controller.scoreStore.state,
+                                  points: controller.scoreStore.state,
                                 ),
                               );
                             }

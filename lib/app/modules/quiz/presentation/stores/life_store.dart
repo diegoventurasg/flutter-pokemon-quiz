@@ -6,4 +6,8 @@ class LifeStore extends StreamStore<Exception, int> {
   void decrement() {
     update(state - 1);
   }
+
+  void init() {
+    update(3);
+  }
 }

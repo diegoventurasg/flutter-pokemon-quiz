@@ -24,14 +24,13 @@ import 'presentation/stores/pokemon_list_store.dart';
 import 'presentation/stores/question_store.dart';
 import 'presentation/stores/ranking_store.dart';
 import 'presentation/stores/score_store.dart';
-import 'quiz_helper.dart';
 
 class QuizModule extends Module {
   @override
   List<Bind<Object>> get binds => [
-        Bind.lazySingleton((i) => QuizHelper()),
         //controllers
-        Bind.factory((i) => QuizController(i.get(), i.get(), i.get(), i.get())),
+        Bind.lazySingleton(
+            (i) => QuizController(i.get(), i.get(), i.get(), i.get())),
         Bind.factory((i) => SaveScoreController(i.get())),
         Bind.factory((i) => RankingController(i.get())),
         //stores

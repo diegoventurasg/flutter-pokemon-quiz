@@ -18,6 +18,8 @@ class QuizController {
   final LifeStore lifeStore;
 
   Future<void> init() async {
+    scoreStore.init();
+    lifeStore.init();
     await pokemonListStore.fetchData();
     await generateQuestion();
   }
