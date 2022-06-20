@@ -9,36 +9,38 @@ class ServiceGetRandomQuestionDatasource
     implements IGetRandomQuestionDatasource {
   @override
   Future<QuestionEntity> call(List<PokemonEntity> list) async {
-    int length = list.length;
+    int pokemonListLength = list.length;
 
-    if (length < 4) {
+    //each quiz question has 4 alternatives
+    //if pokemonListLength < 4 throw an Exception
+    if (pokemonListLength < 4) {
       throw Exception();
     }
 
+    //uses Random to generate the quiz question
     Random random = Random();
-    //alternative list
-    List<int> indexOfAlternatives = [];
+
+    //correct alternative
+    int correctAlternativeIndex = random.nextInt(4); //0, 1, 2 or 3
+
+    List<AlternativeEntity> alternatives = [];
     int i = 0;
     while (i < 4) {
-      int randomPokemon = random.nextInt(length);
-      bool isRepeated = indexOfAlternatives.contains(randomPokemon);
+      int randomIndex = random.nextInt(pokemonListLength);
+      PokemonEntity randomPokemon = list[randomIndex];
+      bool isRepeated = alternatives
+          .any((e) => e.alternative.num.compareTo(randomPokemon.num) == 0);
       if (!isRepeated) {
-        indexOfAlternatives.add(randomPokemon);
+        alternatives.add(AlternativeEntity(
+          alternative: randomPokemon,
+          isCorrect: correctAlternativeIndex == i,
+        ));
         i++;
       }
     }
 
-    //correct alternative
-    int answerIndex = random.nextInt(4);
-    int alternativeCorrectIndex = indexOfAlternatives[answerIndex];
-
-    List<AlternativeEntity> alternatives = indexOfAlternatives
-        .map((e) => AlternativeEntity(
-            alternative: list[e], isCorrect: alternativeCorrectIndex == e))
-        .toList();
-
     QuestionEntity question = QuestionEntity(
-      question: alternatives[answerIndex].alternative,
+      question: alternatives[correctAlternativeIndex].alternative,
       alternatives: alternatives,
     );
 
