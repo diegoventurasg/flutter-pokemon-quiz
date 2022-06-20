@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../core/theme/app_theme.dart';
+import '../../button/button.dart';
 import 'save_score_controller.dart';
 
 class SaveScoreDialog extends StatefulWidget {
@@ -35,6 +37,7 @@ class _SaveScoreDialogState extends State<SaveScoreDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.transparent,
+      contentPadding: const EdgeInsets.all(0),
       content: Container(
         height: double.maxFinite,
         width: double.maxFinite,
@@ -49,7 +52,7 @@ class _SaveScoreDialogState extends State<SaveScoreDialog> {
                 height: 300,
                 width: 300,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: AppTheme.colors.background,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 padding: const EdgeInsets.all(15),
@@ -59,21 +62,19 @@ class _SaveScoreDialogState extends State<SaveScoreDialog> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         InkWell(
-                          onTap: () {
-                            // quizController.clearQuiz();
-                            Modular.to.navigate('/quiz/');
-                          },
-                          child: const FaIcon(
+                          onTap: () => Modular.to.navigate('/quiz/'),
+                          child: FaIcon(
                             FontAwesomeIcons.xmark,
-                            color: Colors.black,
+                            color: AppTheme.colors.text,
                             size: 30,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    const Text(
+                    Text(
                       'Informe um nome para salvar a sua pontuação',
+                      style: AppTheme.textStyles.text,
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -85,16 +86,17 @@ class _SaveScoreDialogState extends State<SaveScoreDialog> {
                         }
                         return null;
                       },
+                      style: AppTheme.textStyles.text,
                     ),
                     const SizedBox(height: 20),
-                    ElevatedButton(
+                    Button(
+                      title: 'CONTINUAR',
                       onPressed: () {
                         controller.save(
                           name: controller.nameController.text,
                           points: widget.points,
                         );
                       },
-                      child: const Text('CONTINUAR'),
                     ),
                   ],
                 ),

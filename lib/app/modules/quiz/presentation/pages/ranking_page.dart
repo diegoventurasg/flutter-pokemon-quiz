@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/loader/loader.dart';
 import '../../domain/entities/score_entity.dart';
 import '../../domain/errors/errors.dart';
 import '../components/score_list/score_list.dart';
@@ -27,10 +29,15 @@ class _RankingPageState extends State<RankingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: AppTheme.colors.background,
+      appBar: AppBar(
+        backgroundColor: AppTheme.colors.background,
+        elevation: 0,
+        title: const Text("Ranking"),
+      ),
       body: ScopedBuilder<RankingStore, Failure, List<ScoreEntity>>(
         store: controller.store,
-        onLoading: (_) => const Center(child: CircularProgressIndicator()),
+        onLoading: (_) => const Center(child: Loader()),
         onError: (_, e) => const Center(child: Text('Error')),
         onState: (_, list) => ScoreList(list: list),
       ),

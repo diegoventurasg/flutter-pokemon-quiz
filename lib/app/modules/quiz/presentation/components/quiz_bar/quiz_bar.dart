@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../core/theme/app_theme.dart';
 import '../../controllers/quiz_controller.dart';
 import '../../stores/life_store.dart';
 import '../../stores/score_store.dart';
@@ -15,10 +16,10 @@ class QuizBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       height: 65,
       width: double.maxFinite,
-      color: Colors.blue,
+      color: AppTheme.colors.background,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -42,7 +43,6 @@ class QuizBar extends StatelessWidget {
                         ],
                       ));
               if (result ?? false) {
-                // quizController.clearQuiz();
                 Modular.to.navigate('/quiz/');
               }
             },

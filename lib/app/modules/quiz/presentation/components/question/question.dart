@@ -1,17 +1,32 @@
+import 'dart:typed_data';
+
+import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 
 import '../../../../../core/consts/api_const.dart';
+import '../../../../../core/theme/app_theme.dart';
+import '../../../../../core/widgets/loader/loader.dart';
 import '../../../domain/entities/question_entity.dart';
 import '../../controllers/quiz_controller.dart';
 import '../../stores/question_store.dart';
-import '../save_score_dialog/save_score_dialog.dart';
+import '../alternative/alternative.dart';
 
 class Question extends StatelessWidget {
   Question({Key? key}) : super(key: key);
 
   final QuizController controller = Modular.get<QuizController>();
+  final Dio dio = Modular.get<Dio>();
+
+  Future<Response> _getImage(String url) async {
+    final result = await dio.get(
+      url,
+      options: Options(responseType: ResponseType.bytes),
+    );
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,47 +36,46 @@ class Question extends StatelessWidget {
         children: [
           ScopedBuilder<QuestionStore, Exception, QuestionEntity>(
             store: controller.questionStore,
-            onLoading: (_) => const Center(child: CircularProgressIndicator()),
+            onLoading: (_) => const Center(child: Loader()),
             onError: (_, exception) => const Center(child: Text('error')),
             onState: (_, question) {
-              return SizedBox(
-                width: 400,
-                child: Column(
-                  children: [
-                    Image.network(
-                      ApiConst.imgUrl(question.question.num),
-                      height: 150,
-                      width: 150,
-                    ),
-                    const SizedBox(height: 16),
-                    ...question.alternatives.map(
-                      (alternative) => Container(
-                        width: 350,
-                        height: 45,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        child: ElevatedButton(
-                          child: Text(alternative.alternative.name),
-                          onPressed: () async {
-                            bool next =
-                                await controller.checkAnswer(alternative);
-                            if (!next) {
-                              //game over
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (_) => SaveScoreDialog(
-                                  points: controller.scoreStore.state,
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              return FutureBuilder(
+                  future: _getImage(ApiConst.imgUrl(question.question.num)),
+                  builder: (_, AsyncSnapshot<Response> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (!snapshot.hasData) {
+                        return Text(
+                          'Algo deu errado :(',
+                          style: AppTheme.textStyles.title,
+                        );
+                      }
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Quem é esse Pokémon?',
+                            style: AppTheme.textStyles.title,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          Image.memory(
+                            Uint8List.fromList(snapshot.data!.data),
+                            height: 150,
+                            width: 150,
+                          ),
+                          const SizedBox(height: 20),
+                          ...question.alternatives.mapIndexed(
+                            (index, alternative) => Alternative(
+                              alternative: alternative,
+                              index: index,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const Center(child: Loader());
+                    }
+                  });
             },
           ),
         ],
