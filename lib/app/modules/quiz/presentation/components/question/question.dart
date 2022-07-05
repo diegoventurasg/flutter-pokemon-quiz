@@ -31,56 +31,54 @@ class Question extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ScopedBuilder<QuestionStore, Exception, QuestionEntity>(
-              store: controller.questionStore,
-              onLoading: (_) => const Center(child: Loader()),
-              onError: (_, exception) => const Center(child: Text('error')),
-              onState: (_, question) {
-                return FutureBuilder(
-                    future: _getImage(ApiConst.imgUrl(question.question.num)),
-                    builder: (_, AsyncSnapshot<Response> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (!snapshot.hasData) {
-                          return Text(
-                            'Algo deu errado :(',
-                            style: AppTheme.textStyles.title,
-                          );
-                        }
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Quem é esse Pokémon?',
-                              style: AppTheme.textStyles.title,
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 20),
-                            Image.memory(
-                              Uint8List.fromList(snapshot.data!.data),
-                              height: 150,
-                              width: 150,
-                            ),
-                            const SizedBox(height: 20),
-                            ...question.alternatives.mapIndexed(
-                              (index, alternative) => Alternative(
-                                alternative: alternative,
-                                index: index,
-                              ),
-                            ),
-                          ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ScopedBuilder<QuestionStore, Exception, QuestionEntity>(
+            store: controller.questionStore,
+            onLoading: (_) => const Center(child: Loader()),
+            onError: (_, exception) => const Center(child: Text('error')),
+            onState: (_, question) {
+              return FutureBuilder(
+                  future: _getImage(ApiConst.imgUrl(question.question.num)),
+                  builder: (_, AsyncSnapshot<Response> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (!snapshot.hasData) {
+                        return Text(
+                          'Algo deu errado :(',
+                          style: AppTheme.textStyles.title,
                         );
-                      } else {
-                        return const Center(child: Loader());
                       }
-                    });
-              },
-            ),
-          ],
-        ),
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Quem é esse Pokémon?',
+                            style: AppTheme.textStyles.title,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          Image.memory(
+                            Uint8List.fromList(snapshot.data!.data),
+                            height: 150,
+                            width: 150,
+                          ),
+                          const SizedBox(height: 20),
+                          ...question.alternatives.mapIndexed(
+                            (index, alternative) => Alternative(
+                              alternative: alternative,
+                              index: index,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const Center(child: Loader());
+                    }
+                  });
+            },
+          ),
+        ],
       ),
     );
   }
