@@ -20,22 +20,24 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.colors.background,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: FutureBuilder(
-            future: controller.init(),
-            builder: (_, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Column(
-                  children: [
-                    QuizBar(),
-                    Question(),
-                  ],
-                );
-              } else {
-                return Container();
-              }
-            }),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: FutureBuilder(
+              future: controller.init(),
+              builder: (_, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Column(
+                    children: [
+                      QuizBar(),
+                      Question(),
+                    ],
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+        ),
       ),
     );
   }
