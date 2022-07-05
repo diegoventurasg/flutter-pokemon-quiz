@@ -54,7 +54,9 @@ class _AlternativeState extends State<Alternative> {
           padding: const EdgeInsets.only(bottom: 10),
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
-            onTap: () => _handleClickAlternative(context, widget.alternative),
+            onTap: selectedAlternative == -1
+                ? () => _handleClickAlternative(context, widget.alternative)
+                : null,
             child: Container(
               width: 350,
               height: 40,
