@@ -87,6 +87,16 @@ class _SaveScoreDialogState extends State<SaveScoreDialog> {
                         return null;
                       },
                       style: AppTheme.textStyles.text,
+                      decoration: InputDecoration(
+                        hintText: 'Nome',
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     Button(
