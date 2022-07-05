@@ -38,6 +38,12 @@ class _SplashPageState extends State<SplashPage>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       color: AppTheme.colors.primary,
